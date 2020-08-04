@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (C) 2013-2020 Niels Basjes
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ https://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <packaging>war</packaging>
+
+  <groupId>nl.basjes.experiments</groupId>
+  <artifactId>springfox-webapp</artifactId>
+  <version>0.1-SNAPSHOT</version>
+  <name>Experiment : Web Servlet</name>
+
+  <properties>
+    <target.java.version>1.8</target.java.version>
+    <target.java.release>8</target.java.release>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.build.outputEncoding>UTF-8</project.build.outputEncoding>
+    <maven.compiler.source>${target.java.version}</maven.compiler.source>
+    <maven.compiler.target>${target.java.version}</maven.compiler.target>
+
+    <main.class>nl.basjes.experiment.servlet.MyService</main.class>
+
+    <spring.version>5.2.8.RELEASE</spring.version>
+    <spring-boot.version>2.3.2.RELEASE</spring-boot.version>
+    <spring-boot-legacy.version>2.1.0.RELEASE</spring-boot-legacy.version>
+
+    <springfox-swagger.version>3.0.0</springfox-swagger.version>
+
+    <slf4j.version>1.7.30</slf4j.version>
+    <log4j2.version>2.13.3</log4j2.version>
+
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+      <version>${spring-boot.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-legacy</artifactId>
+      <version>${spring-boot-legacy.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>io.springfox</groupId>
+      <artifactId>springfox-boot-starter</artifactId>
+      <version>${springfox-swagger.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <version>${spring-boot.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${slf4j.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-api</artifactId>
+      <version>${log4j2.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-to-slf4j</artifactId>
+      <version>${log4j2.version}</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+
+    <outputDirectory>target/${project.artifactId}/WEB-INF/classes</outputDirectory>
+
+    <plugins>
+
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <version>${spring-boot.version}</version>
+        <configuration>
+          <mainClass>${main.class}</mainClass>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>3.2.3</version>
+        <configuration>
+          <failOnMissingWebXml>false</failOnMissingWebXml>
+          <archiveClasses>true</archiveClasses>
+          <webResources>
+            <!-- in order to interpolate version and main class from pom into {appengine-,}web.xml -->
+            <resource>
+              <directory>${basedir}/src/main/webapp/WEB-INF</directory>
+              <filtering>true</filtering>
+              <targetPath>WEB-INF</targetPath>
+            </resource>
+          </webResources>
+        </configuration>
+      </plugin>
+
+    </plugins>
+
+  </build>
+
+</project>
