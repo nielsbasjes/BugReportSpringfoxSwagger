@@ -38,6 +38,7 @@ import java.util.Collections;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertNotNull;
 import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.MediaType.ALL;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.http.MediaType.APPLICATION_XML;
 import static org.springframework.http.MediaType.TEXT_PLAIN;
@@ -102,4 +103,12 @@ public class TestMyService {
         runTest("/docombi",      APPLICATION_XML, "XML");
         runTest("/docombi/xml",  APPLICATION_XML, "XML");
     }
+
+    @Test
+    public void testGetToAny() {
+        runTest("/docombi/text", ALL, "Text");
+        runTest("/docombi/json", ALL, "JSON");
+        runTest("/docombi/xml",  ALL, "XML");
+    }
+
 }
